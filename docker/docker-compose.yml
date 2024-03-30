@@ -18,8 +18,8 @@ services:
       args:
         REQUIREMENTS: requirements.txt
         MODULES: caption,summarize,classify
-#        REQUIREMENTS: requirements-complete.txt
-#        MODULES: caption,summarize,classify,sd,silero-tts,edge-tts,chromadb
+#        REQUIREMENTS: "requirements.txt -r requirements-rvc.txt"
+#        MODULES: caption,summarize,classify,rvc
     volumes:
       #- "./chromadb:/chromadb"
       - "./cache:/root/.cache"
@@ -29,4 +29,4 @@ services:
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
     command: python server.py --enable-modules=caption,summarize,classify
-#    command: python server.py --enable-modules=caption,summarize,classify,sd,silero-tts,edge-tts,chromadb
+#    command: python server.py --enable-modules=caption,summarize,classify,rvc
