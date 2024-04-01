@@ -7,7 +7,7 @@ ARG PATH="/root/miniconda3/bin:${PATH}"
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        python3 python3-venv wget build-essential
+        python3 python3-venv wget build-essential ffmpeg
 
 RUN wget \
     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
