@@ -49,3 +49,4 @@ services:
 #   
 #   For a list of possible modules, refer to the "Modules" section on the project's main page.
 #   NOTE - Separate additional modules by commas in the "--enable-modules" list. DO NOT separate them with spaces.
+#   Example: Adding the RVC module would result in the section being "--enable-modules=caption,summarize,classify,rvc"
