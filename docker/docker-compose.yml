@@ -47,6 +47,14 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
     entrypoint: ["python", "server.py", "--enable-modules=caption,summarize,classify"]
 #   
-#   For a list of possible modules, refer to the "Modules" section on the project's main page.
-#   NOTE - Separate additional modules by commas in the "--enable-modules" list. DO NOT separate them with spaces.
-#   Example: Adding the RVC module would result in the section being "--enable-modules=caption,summarize,classify,rvc"
+#   Additional Modules: 
+#     For a list of possible modules, refer to the "Modules" section on the main page at https://github.com/SillyTavern/SillyTavern-Extras?tab=readme-ov-file#modules .
+#     NOTE - Separate additional modules by commas in the "--enable-modules" list. DO NOT separate them with spaces.
+#     Example: Adding the RVC module would result in the entrypoint looking like the following:
+#       entrypoint: ["python", "server.py", "--enable-modules=caption,summarize,classify,rvc"]
+#
+#   Additional Flags:
+#     For a list of additional flags, refer to the "Options" section on the main page at https://github.com/SillyTavern/SillyTavern-Extras?tab=readme-ov-file#options .
+#     NOTE - Add each additional flag as an additional argument. They should be surrounded in quotes and comma separated from the previous arguments.
+#     Example: Adding the "--listen" flag to allow network communication would result in the entrypoint looking like the following:
+#       entrypoint: ["python", "server.py", "--enable-modules=caption,summarize,classify", "--listen"]
