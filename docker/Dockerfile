@@ -31,5 +31,4 @@ COPY . .
 ARG REQUIREMENTS
 RUN pip install -r $REQUIREMENTS
 
-ARG MODULES
-CMD ["python","server.py","--enable-modules=$MODULES"]
+ENTRYPOINT ["python","server.py"]
