@@ -38,8 +38,8 @@ services:
 #     ChromaDB - Utilized by ChromaDB.
 #     - "./chromadb:/chromadb"
 #
-#     Real-time Voice CLoning 
-#     - "./models/rvc:/data/models/rvc"
+#     Real-time Voice Cloning
+#     - "./models/rvc:/sillytavern-extras/data/models/rvc"
 #     
     ports:
       - "5100:5100"
