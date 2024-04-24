@@ -1,5 +1,7 @@
 # SillyTavern - Extras
-
+---
+## Extras project is discontinued and won't receive any new updates or modules. The vast majority of modules are available natively in the main SillyTavern application. You may still install and use it but don't expect to get immediate support if you face any issues.
+---
 - [Recent news](#recent-news)
 - [What is this](#what-is-this)
 - [How to run](#how-to-run)
@@ -11,6 +13,7 @@
 
 ## Recent news
 
+* April 24 2024 - The project is officially discontinued.
 * November 20 2023 - The project is relicensed as AGPLv3 to comply with the rest of ST organization policy. If you have any concerns about that, please raise a discussion in the appropriate channel.
 * November 16 2023 - Requirement files were remade from scratch to simplify the process of local installation.
   - Removed requirements-complete.txt, please use requirements.txt instead.
