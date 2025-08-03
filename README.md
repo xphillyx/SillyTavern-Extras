@@ -230,6 +230,19 @@ cd SillyTavern-extras
 | `--sd-remote-ssl`        | Use SSL for the remote SD backend<br>Default: **False** |
 | `--sd-remote-auth`       | Specify the `username:password` for the remote SD backend (if required) |
 
+## For faster-whisper instead of whisper when using whisper(extras)
+1. Install CUDA 12 and cuDNN 8
+2. Install faster-whisper requirements
+```
+pip install -r requirements-faster-whisper.txt
+```
+use the `--use-faster-whisper` argument to switch to faster-whisper
+
+Optional:
+
+1. use the `--faster-whisper-type` argument to change compute mode for faster-whisper(ex. `--faster-whisper-type=int8`)
+2. use the `--faster-whisper-cpu` argument to switch computing device to cpu
+
 ## Coqui TTS
 
 ### Running on Mac M1

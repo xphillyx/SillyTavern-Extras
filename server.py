@@ -373,6 +373,11 @@ def _generate_image(data: dict) -> Image:
             height=data["height"],
             restore_faces=data["restore_faces"],
             enable_hr=data["enable_hr"],
+            seed=data["seed"],
+            override_settings=dict({
+                "CLIP_stop_at_last_layers": data["clip_skip"],
+            }),
+            override_settings_restore_afterwards=True,
             save_images=True,
             send_images=True,
             do_not_save_grid=False,
@@ -408,6 +413,8 @@ def api_image():
         "enable_hr": False,
         "prompt_prefix": PROMPT_PREFIX,
         "negative_prompt": NEGATIVE_PROMPT,
+        "seed": -1,
+        "clip_skip": 1,
     }
 
     data = request.get_json()
@@ -928,7 +935,12 @@ parser.add_argument("--max-content-length", help="Set the max")
 parser.add_argument("--rvc-save-file", action="store_true", help="Save the last rvc input/output audio file into data/tmp/ folder (for research)")
 
 parser.add_argument("--stt-vosk-model-path", help="Load a custom vosk speech-to-text model")
-parser.add_argument("--stt-whisper-model-path", help="Load a custom vosk speech-to-text model")
+parser.add_argument("--stt-whisper-model-path", help="Load a custom whisper speech-to-text model")
+
+parser.add_argument("--use-faster-whisper", action="store_true", help="Choose to use faster-whisper instead of whisper")
+parser.add_argument("--faster-whisper-cpu", action="store_true", help="Use cpu to run faster-whisper, saves VRAM but much slower")
+parser.add_argument("--faster-whisper-type", help="Choose faster-whisper compute type, defaults to float16 for cuda and int8 for cpu")
+
 # sd_group = parser.add_mutually_exclusive_group()
 
 local_sd = parser.add_argument_group("sd-local")
@@ -1154,15 +1166,36 @@ if "vosk-stt" in modules:
     app.add_url_rule("/api/speech-recognition/vosk/process-audio", view_func=vosk_module.process_audio, methods=["POST"])
 
 if "whisper-stt" in modules:
-    print("Initializing Whisper speech-recognition (from ST request file)")
+    whisper_fast=(
+        True
+        if args.use_faster_whisper
+        else False)
+
     whisper_model_path = (
         args.stt_whisper_model_path
         if args.stt_whisper_model_path
         else None)
 
-    import modules.speech_recognition.whisper_module as whisper_module
+    if whisper_fast:
 
-    whisper_module.model = whisper_module.load_model(file_path=whisper_model_path)
+        faster_whisper_device=(
+            "cpu"
+            if args.faster_whisper_cpu
+            else "cuda")
+
+        faster_whisper_type=(
+            args.faster_whisper_type
+            if args.faster_whisper_type
+            else "auto")
+
+        print(f"Initializing Faster-Whisper speech-recognition (from ST request file) on {faster_whisper_device}")
+        import modules.speech_recognition.faster_whisper_module as whisper_module
+        whisper_module.model = whisper_module.load_model(file_path=whisper_model_path,whisper_device=faster_whisper_device,whisper_compute_type=faster_whisper_type)
+    else:
+        print("Initializing Whisper speech-recognition (from ST request file)")
+        import modules.speech_recognition.whisper_module as whisper_module
+        whisper_module.model = whisper_module.load_model(file_path=whisper_model_path)
+
     app.add_url_rule("/api/speech-recognition/whisper/process-audio", view_func=whisper_module.process_audio, methods=["POST"])
 
 if "streaming-stt" in modules:
